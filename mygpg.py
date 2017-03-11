@@ -3,24 +3,24 @@ from __future__ import absolute_import, print_function, unicode_literals
 del absolute_import, print_function, unicode_literals
 
 import gpg
-from optparse import OptionParser
+from argparse import ArgumentParser
 from lxml import etree
 
 def main():
-    parser = OptionParser()
-    parser.add_option("-c", "--config", dest="config", help="read config from FILE", metavar="FILE")
-    parser.add_option("-g", "--genkey", dest="genkey", help="generate a new keypair", default=False, action="store_true")
-    parser.add_option("-a", "--algo", dest="algo", help="use the ALGO key algorithm when generating keys", metavar="ALGO")
-    parser.add_option("-k", "--keysize", dest="keysize", help="use a key size of length KEYSIZE", metavar="KEYSIZE")
-    parser.add_option("-u", "--user", dest="name", help="set NAME as the name to use for the key's user-id", metavar="NAME")
-    parser.add_option("-m", "--email", dest="email", help="set EMAIL as the email to use for the key's user-id", metavar="EMAIL")
-    parser.add_option("-C", "--comment", dest="comment", help="set COMMENT as the comment to use for the key's user-id", metavar="COMMENT")
-    parser.add_option("-e", "--expiry", dest="expiry", help="EXPIRY duration until keys expire", metavar="EXPIRY")
+    parser = ArgumentParser()
+    parser.add_argument("-c", "--config", dest="config", help="read config from FILE", metavar="FILE")
+    parser.add_argument("-g", "--genkey", dest="genkey", default=False, action="store_true", help="generate a new keypair")
+    parser.add_argument("-a", "--algo", dest="algo", help="use the ALGO key algorithm when generating keys", metavar="ALGO")
+    parser.add_argument("-k", "--keysize", dest="keysize", help="use a key size of length KEYSIZE", metavar="KEYSIZE")
+    parser.add_argument("-u", "--user", dest="name", help="set NAME as the name to use for the key's user-id", metavar="NAME")
+    parser.add_argument("-m", "--email", dest="email", help="set EMAIL as the email to use for the key's user-id", metavar="EMAIL")
+    parser.add_argument("-C", "--comment", dest="comment", help="set COMMENT as the comment to use for the key's user-id", metavar="COMMENT")
+    parser.add_argument("-e", "--expiry", dest="expiry", help="EXPIRY duration until keys expire", metavar="EXPIRY")
     
-    (options, args) = parser.parse_args()
-    if options.config:
-        load_config(options.config)
-    elif options.genkey:
+    args = parser.parse_args()
+    if args.config:
+        load_config(args.config)
+    if args.genkey:
         print("Generating new keypair...")
 
 def load_config(file):
